@@ -1,0 +1,8 @@
+{
+  "name": "jc.tn",
+  "scripts": {
+    "build-json": "node compile.js"
+  },
+  "main": "compile.js",
+  "private": true
+}
