@@ -1,0 +1,7 @@
+creation_rules:
+  - path_regex: .*\.enc\..*
+    pgp: >-
+      0x151102D9957894C51D76FD7DAC92A66F57B57DF2,
+      0x7041025E661A7AA4A586367704C5E3CA5247B696
+    age:
+      age1h37h652d7mz0pq5xva6vazt5vkykudlszcxsr0zqu9t2qe8p7f9sld48de

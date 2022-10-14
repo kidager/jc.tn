@@ -11,19 +11,6 @@ help: ## Print this help with list of available commands/targets and their purpo
 
 #
 #--------------------------------------------------------------------------
-##@ Build
-#--------------------------------------------------------------------------
-#
-.PHONY: build
-build: ## Build the project locally
-	@npm run build-json
-
-.PHONY: clean
-clean: ## Clean the workspace
-	@rm -f "redirects.json" "firebase.json"
-
-#
-#--------------------------------------------------------------------------
 ##@ Firebase
 #--------------------------------------------------------------------------
 #
@@ -41,14 +28,3 @@ deploy-beta: build ## Deploy the app to beta channel
 
 .PHONY: deploy
 deploy: deploy-beta ## Deploy the app to beta channel
-
-#
-#--------------------------------------------------------------------------
-# Automatic dependency to all rules
-#--------------------------------------------------------------------------
-#
-%: force
-	@if [ ! -f redirects.json ]; then cp redirects.json.example redirects.json; fi;
-
-.PHONY: force
-force:

@@ -1,7 +1,3 @@
-# Secret files
-redirects.json
-firebase.json
-
 # Logs
 logs
 *.log

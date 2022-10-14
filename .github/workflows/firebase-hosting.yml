@@ -16,16 +16,21 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v2
 
-      - run: 'echo "$REDIRECTS_JSON" > redirects.json'
-        shell: bash
+      - name: Decrypt secrets
         env:
-          REDIRECTS_JSON: ${{secrets.REDIRECTS_JSON}}
+          SOPS_VERSION: v3.7.3
+          SOPS_AGE_KEY: "${{ secrets.SOPS_AGE_KEY }}"
+        shell: bash
+        run: |
+          wget -q -O sops https://github.com/mozilla/sops/releases/download/${{ env.SOPS_VERSION }}/sops-${{ env.SOPS_VERSION }}.linux
+          chmod +x ./sops
+          ./sops --version
+          ./sops -d ./firebase.enc.json > firebase.json
+          rm -f firebase.enc.json
 
       - uses: actions/setup-node@v1
         with:
           node-version: '10'
-
-      - run: npm run build-json
 
       - name: Deploy to PROD
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
@@ -55,5 +60,5 @@ jobs:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
       - name: Clean up
-        run: 'rm -rf redirects.json firebase.json'
+        run: 'rm -f firebase.json'
         shell: bash
