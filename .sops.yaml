@@ -3,5 +3,6 @@ creation_rules:
     pgp: >-
       0x151102D9957894C51D76FD7DAC92A66F57B57DF2,
       0x7041025E661A7AA4A586367704C5E3CA5247B696
-    age:
-      age1h37h652d7mz0pq5xva6vazt5vkykudlszcxsr0zqu9t2qe8p7f9sld48de
+    age: >-
+      age1h37h652d7mz0pq5xva6vazt5vkykudlszcxsr0zqu9t2qe8p7f9sld48de,
+      age14dytnafhz2kz3l4cl6xtqcpxkn4qfef200udh9gt6txn6dwxudcs9gdm4s
