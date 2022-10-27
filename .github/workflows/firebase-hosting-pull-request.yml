@@ -1,11 +1,22 @@
 name: Deploy to Firebase Hosting on PR
-'on': pull_request
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**docker**'
+      - '.github/**'
+      - '.vscode/**'
+
 jobs:
   build_and_preview:
+    name: Deploy to Firebase Hosting on PR
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
+    concurrency:
+      group: beta-${{ github.ref }}
+      cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Decrypt secrets
         env:
           SOPS_VERSION: v3.7.3
