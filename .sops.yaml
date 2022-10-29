@@ -1,5 +1,5 @@
 creation_rules:
-  - path_regex: .*\.enc\..*
+  - path_regex: .*\.enc
     pgp: >-
       0x151102D9957894C51D76FD7DAC92A66F57B57DF2,
       0x7041025E661A7AA4A586367704C5E3CA5247B696

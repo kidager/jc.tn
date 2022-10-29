@@ -21,8 +21,8 @@ cd jc.tn
 ### Edit config file
 
 ```bash
-# To edit redirections you'll need to edit `firebase.enc.json` with `sops`
-sops firebase.enc.json
+# To edit redirections you'll need to edit `firebase.enc` with `sops`
+sops firebase.enc
 ```
 
 You will be editing `hosting.redirects` array.:
@@ -57,7 +57,7 @@ git push
 or if you want to deploy from your local env, you will need to install firebase and then run the following commands
 ```bash
 # Decrypt the config file
-sops --decrypt firebase.enc.json > firebase.json
+sops --decrypt firebase.enc > firebase.json
 
 # You may need to login your google account before deploy
 make firebase-login
