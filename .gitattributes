@@ -1,1 +1,1 @@
-*.enc.{yaml,json,ini,env} diff=sopsdiffer
+*.enc diff=sopsdiffer

@@ -15,8 +15,8 @@ jobs:
           wget -q -O sops https://github.com/mozilla/sops/releases/download/${{ env.SOPS_VERSION }}/sops-${{ env.SOPS_VERSION }}.linux
           chmod +x ./sops
           ./sops --version
-          ./sops -d ./firebase.enc.json > firebase.json
-          rm -f firebase.enc.json
+          ./sops -d ./firebase.enc > firebase.json
+          rm -f firebase.enc
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'

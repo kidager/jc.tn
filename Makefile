@@ -19,11 +19,11 @@ firebase-login: ## Login to firebase
 	@firebase login
 
 .PHONY: deploy-prod
-deploy-prod: build ## Deploy the app to production
+deploy-prod: ## Deploy the app to production
 	@firebase deploy --only hosting:jc-tn-url-shortener
 
 .PHONY: deploy-beta
-deploy-beta: build ## Deploy the app to beta channel
+deploy-beta: ## Deploy the app to beta channel
 	@firebase hosting:channel:deploy --only jc-tn-url-shortener beta
 
 .PHONY: deploy
