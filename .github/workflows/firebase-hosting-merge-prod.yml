@@ -1,13 +1,19 @@
 name: Deploy to PRODUCTION
-'on':
+
+on:
   push:
     branches:
       - master
+
 jobs:
   build_and_deploy:
+    name: Deploy to PRODUCTION
     runs-on: ubuntu-latest
+    concurrency:
+      group: prod-${{ github.ref }}
+      cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Decrypt secrets
         env:
           SOPS_VERSION: v3.7.3
