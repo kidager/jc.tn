@@ -1,21 +1,140 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>💍 Invitation</title>
+    <title>💍 إستدعاء</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Cairo|Rakkas|Lalezar" rel="stylesheet">
+
+    <!-- Well, this should not go to prod, but it's a website for 2 days, so ¯\_(ツ)_/¯ -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous"
+        referrerpolicy="no-referrer"
+    />
+
     <style>
-        .bg {
-            background-image: url("/m/invitation.png");
-            width: 100vw;
-            height: 3508px;
-            background-position: top center;
-            background-repeat: no-repeat;
-            background-size: contain;
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "Cairo", sans-serif;
+        }
+        body {
+            background: #EAEAEA;
+            background-image: radial-gradient(#e7ddcf 2px, transparent 0);
+            background-size: 25px 25px;
+            background-position: -19px -19px;
         }
     </style>
 </head>
 <body>
-    <div class="bg"></div>
+    <div class="fixed bottom-0 left-0 right-0 p-16">
+        <audio preload loop autoplay src="/m/assets/lelliri-yamma.mp3">
+            <source src="/m/assets/lelliri-yamma.mp3" type="audio/mpeg" />
+            Your browser does not support the audio element.
+        </audio>
+        <button onclick="togglePlay()" class="h-16 w-16 rounded-full text-2xl text-center font-medium bg-amber-100 text-amber-900 border-amber-600 border border-b-4 border-r-4 shadow-lg hover:shadow-sm hover:bg-amber-300">
+            <i id="audio-icon" class="fa-solid fa-pause"></i>
+        </button>
+    </div>
+
+    <div class="grid grid-cols-1 justify-items-center items-center text-2xl p-16 min-w-[540px]">
+        <h1 class="text-amber-600 font-['Rakkas'] text-9xl py-16">
+            إستدعاء
+        </h1>
+
+        <p class="mt-10">
+            نتشرف بدعوتكم لحفل زفاف
+        </p>
+
+        <div class="grid grid-cols-7 pt-16 pb-16">
+            <p class="col-span-3 text-center font-black font-['Lalezar'] text-amber-700 text-6xl">
+                جاسم
+            </p>
+            <img
+                class="col-span-1 max-w-[64px] text-center motion-safe:animate-bounce hover:animate-ping"
+                alt="❤️"
+                src="/m/assets/icons/rings.svg"
+            />
+            <p class="col-span-3 text-center font-black font-['Lalezar'] text-amber-700 text-6xl">
+                تهاني
+            </p>
+        </div>
+
+        <p>
+            وذلك بمشيئة الله أيام
+        </p>
+
+        <div class="grid grid-cols-12 text-2xl items-center pt-16">
+            <a class="col-span-12 md:col-span-4 text-center font-medium text-amber-900">
+                3 نوفمبر
+            </a>
+
+            <div class="col-span-3 md:col-span-1 motion-safe:animate-pulse">
+                <img
+                    alt="🍽️"
+                    src="/m/assets/icons/dinner.svg"
+                />
+            </div>
+
+
+            <a class="col-span-9 md:col-span-4 p-5 md:p-0 text-center font-medium text-amber-900">
+                العشاء والحنة
+            </a>
+
+            <a target="_blank" href="https://www.google.com/maps/dir/?api=1&travelmode=walking&layer=traffic&destination=33.71338,8.973120"
+                class="col-span-12 md:col-span-3 p-5 text-center justify-center bg-amber-100 text-amber-900 border-amber-600 border border-b-4 border-r-4 rounded-lg shadow-lg hover:shadow-sm hover:bg-amber-300"
+            >
+                المكان
+                <i class="fa-solid fa-map-location-dot"></i>
+            </a>
+        </div>
+
+        <div class="grid grid-cols-12 text-2xl items-center pt-16">
+            <a class="col-span-12 md:col-span-4 text-center font-medium text-amber-900">
+                4 نوفمبر
+            </a>
+
+            <div class="col-span-3 md:col-span-1 motion-safe:animate-pulse">
+                <img alt="🚗" src="/m/assets/icons/car.svg" />
+            </div>
+
+            <a class="col-span-9 md:col-span-4 p-5 md:p-0 text-center font-medium text-amber-900">
+                التصديرة والعرس
+            </a>
+
+            <a target="_blank" href="https://www.google.com/maps/dir/?api=1&travelmode=walking&layer=traffic&waypoints=33.699500,8.979766|33.699901,8.981288&destination=33.6994281,8.9809853"
+                class="col-span-12 md:col-span-3 p-5 text-center font-medium bg-amber-100 text-amber-900 border-amber-600 border border-b-4 border-r-4 rounded-lg shadow-lg hover:shadow-sm hover:bg-amber-300"
+            >
+                المكان
+                <i class="fa-solid fa-map-location-dot"></i>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const audioPlayer = document.querySelector("audio");
+        const audioIcon = document.querySelector("#audio-icon");
+        var isPlaying = false;
+
+        function togglePlay() {
+            isPlaying ? audioPlayer.pause() : audioPlayer.play();
+        };
+
+        audioPlayer.onplaying = () => {
+            isPlaying = true;
+            audioIcon.setAttribute('class', 'fa-solid fa-pause');
+        };
+        audioPlayer.onpause = () => {
+            isPlaying = false;
+            audioIcon.setAttribute('class', 'fa-solid fa-play');
+        };
+    </script>
 </body>
 </html>
