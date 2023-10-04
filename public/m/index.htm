@@ -8,6 +8,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Cairo|Rakkas|Lalezar" rel="stylesheet">
 
+    <meta name="twitter:card" content="summary">
+    <meta property="og:title" content="💍 إستدعاء">
+    <meta property="og:description" content="حفل زواج جاسم و تهاني، 3 و4 نوفمبر 2023">
+    <meta property="og:image" content="https://jc.tn/m/assets/preview.png">
+    <meta property="og:url" content="https://jc.tn/m">
+
     <!-- Well, this should not go to prod, but it's a website for 2 days, so ¯\_(ツ)_/¯ -->
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -35,17 +41,17 @@
 </head>
 <body>
     <div class="fixed bottom-0 right-0 p-8 z-50">
-        <audio preload loop autoplay src="/m/assets/lelliri-yamma.mp3">
+        <audio preload loop src="/m/assets/lelliri-yamma.mp3">
             <source src="/m/assets/lelliri-yamma.mp3" type="audio/mpeg" />
             Your browser does not support the audio element.
         </audio>
         <button onclick="togglePlay()" class="h-16 w-16 rounded-full text-2xl text-center font-medium bg-amber-100 text-amber-900 border-amber-600 border border-b-4 border-r-4 shadow-lg hover:shadow-sm hover:bg-amber-300">
-            <i id="audio-icon" class="fa-solid fa-pause"></i>
+            <i id="audio-icon" class="fa-solid fa-play"></i>
         </button>
     </div>
 
     <div class="grid grid-cols-1 justify-items-center items-center text-2xl p-8">
-        <h1 class="text-amber-600 font-['Rakkas'] text-9xl py-16">
+        <h1 id="first-title" class="text-amber-600 font-['Rakkas'] text-9xl py-16">
             إستدعاء
         </h1>
 
@@ -88,7 +94,7 @@
                 العشاء والحنة
             </a>
 
-            <a target="_blank" href="https://www.google.com/maps/dir/?api=1&travelmode=walking&layer=traffic&destination=33.71338,8.973120"
+            <a target="_blank" href="/m-l1"
                 class="col-span-12 md:col-span-3 p-5 text-center justify-center bg-amber-100 text-amber-900 border-amber-600 border border-b-4 border-r-4 rounded-lg shadow-lg hover:shadow-sm hover:bg-amber-300"
             >
                 المكان
@@ -96,7 +102,7 @@
             </a>
         </div>
 
-        <div class="grid grid-cols-12 text-2xl items-center pt-16">
+        <div class="grid grid-cols-12 text-2xl items-center py-16">
             <a class="col-span-12 md:col-span-4 text-center font-medium text-amber-900">
                 4 نوفمبر
             </a>
@@ -109,7 +115,7 @@
                 التصديرة والعرس
             </a>
 
-            <a target="_blank" href="https://www.google.com/maps/dir/?api=1&travelmode=walking&layer=traffic&waypoints=33.699500,8.979766|33.699901,8.981288&destination=33.6994281,8.9809853"
+            <a target="_blank" href="/m-l2"
                 class="col-span-12 md:col-span-3 p-5 text-center font-medium bg-amber-100 text-amber-900 border-amber-600 border border-b-4 border-r-4 rounded-lg shadow-lg hover:shadow-sm hover:bg-amber-300"
             >
                 المكان
@@ -119,8 +125,9 @@
     </div>
 
     <script>
-        const audioPlayer = document.querySelector("audio");
-        const audioIcon = document.querySelector("#audio-icon");
+        // Audio Player
+        const audioPlayer = document.querySelector('audio');
+        const audioIcon = document.querySelector('#audio-icon');
         var isPlaying = false;
 
         function togglePlay() {
@@ -135,6 +142,24 @@
             isPlaying = false;
             audioIcon.setAttribute('class', 'fa-solid fa-play');
         };
+
+        // Add custom text
+        try {
+            var queryString = window.location.search.slice(1) ?? '';
+            var decodedString = new TextDecoder().decode(Uint8Array.from(atob(queryString), (m) => m.codePointAt(0)));
+
+            if ('' !== decodedString) {
+                const nameParagraph = document.createElement('p');
+
+                nameParagraph.setAttribute('class', 'mt-10 pb-8 text-3xl text-center');
+                nameParagraph.appendChild(document.createTextNode(decodedString));
+
+                document
+                    .getElementById('first-title')
+                    .insertAdjacentElement('afterend', nameParagraph);
+            }
+        } catch {
+        }
     </script>
 </body>
 </html>
