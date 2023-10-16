@@ -155,7 +155,8 @@
 
         // Add custom text
         try {
-            var queryString = window.location.search.slice(1) ?? '';
+            var queryStrings = window.location.search.slice(1).split('&') ?? [''];
+            var queryString = queryStrings[0] ?? '';
             var decodedString = new TextDecoder().decode(Uint8Array.from(atob(queryString), (m) => m.codePointAt(0)));
 
             if ('' !== decodedString) {
