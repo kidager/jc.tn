@@ -14,14 +14,17 @@ jobs:
       group: beta-${{ github.ref }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: Decrypt secrets
         env:
-          SOPS_VERSION: v3.7.3
+          SOPS_VERSION: v3.8.1
           SOPS_AGE_KEY: "${{ secrets.SOPS_AGE_KEY }}"
         shell: bash
         run: |
-          wget -q -O sops https://github.com/mozilla/sops/releases/download/${{ env.SOPS_VERSION }}/sops-${{ env.SOPS_VERSION }}.linux
+          wget -q -O sops https://github.com/getsops/sops/releases/download/${{ env.SOPS_VERSION }}/sops-${{ env.SOPS_VERSION }}.linux.amd64
           chmod +x ./sops
           ./sops --version
           ./sops -d ./firebase.enc > firebase.json
