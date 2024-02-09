@@ -17,9 +17,6 @@ jobs:
       cancel-in-progress: true
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
       - name: Decrypt secrets
         env:
           SOPS_VERSION: v3.8.1
