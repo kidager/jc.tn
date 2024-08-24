@@ -1,0 +1,8 @@
+services:
+  jc-tn:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    volumes:
+      - ./:/home/node/app:delegated

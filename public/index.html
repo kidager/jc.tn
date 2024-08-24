@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="refresh" content="5; url=https://jacem.chaieb.me">
+    <title>Redirecting</title>
+    <script data-api-host="https://cdn.growthbook.io" data-client-key="sdk-WaqyeelhiwkIDCRx" src="https://cdn.jsdelivr.net/npm/@growthbook/growthbook/dist/bundles/auto.min.js"></script>
+</head>
+<body>
+    <h1>Hi</h1>
+    <p>Redirecting...</p>
+    <script>
+        let pathName = window.location.pathname.replace(/\//g,'-').replace(/-+/g,'-').replace(/(^-|-$)/g,'');
+        let featureName = 'jc-tn-url-' + window.location.pathname.replace(/\//g,'');
+        let featureValue = ('' == pathName)
+            ? 'https://jacem.chaieb.me'
+            : window._growthbook?.getFeatureValue(featureName, null);
+
+        window.location.replace((null != featureValue) ? featureValue : '/404')
+    </script>
+</body>
+</html>

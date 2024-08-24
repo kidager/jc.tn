@@ -1,6 +1,10 @@
 # Secrets
 firebase.json
 
+# Docker
+*compose.override.yml
+*compose.override.yaml
+
 # Logs
 logs
 *.log
