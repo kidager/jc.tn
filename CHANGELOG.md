@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1](https://github.com/kidager/jc.tn/compare/v1.0.0...v1.0.1) (2025-01-16)
+
+
+### Miscellaneous Chores
+
+* update links ([afbd0f0](https://github.com/kidager/jc.tn/commit/afbd0f0706da7142c0bb5b2f44a6af65736f05c9))
+* update release-please.yml ([16d097f](https://github.com/kidager/jc.tn/commit/16d097f8b879b44ee87d889c9a5185b8b2c3ba92))
+
 ## 1.0.0 (2024-08-24)
 
 
