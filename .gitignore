@@ -1,5 +1,9 @@
 # Secrets
 firebase.json
+cloudflare.json
+
+# Build output
+dist/
 
 # Docker
 *compose.override.yml
@@ -71,3 +75,4 @@ node_modules/
 
 # dotenv environment variables file
 .env
+.claude/settings.local.json
