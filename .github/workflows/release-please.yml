@@ -33,7 +33,7 @@ jobs:
         url: https://jc.tn
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-      - name: Decrypt secrets
+      - name: Decrypt firebase secrets
         env:
           SOPS_VERSION: v3.8.1
           SOPS_AGE_KEY: "${{ secrets.SOPS_AGE_KEY }}"
@@ -53,3 +53,33 @@ jobs:
           channelId: live
       - run: |
             rm -f firebase.json
+
+  build-and-release-to-cloudflare:
+    runs-on: ubuntu-latest
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
+    environment:
+        name: production-cloudflare
+        url: https://jc-tn.pages.dev
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - name: Decrypt cloudflare secrets and generate _redirects
+        env:
+          SOPS_VERSION: v3.8.1
+          SOPS_AGE_KEY: "${{ secrets.SOPS_AGE_KEY }}"
+        shell: bash
+        run: |
+          wget -q -O sops https://github.com/mozilla/sops/releases/download/${{ env.SOPS_VERSION }}/sops-${{ env.SOPS_VERSION }}.linux.amd64
+          chmod +x ./sops
+          ./sops --version
+          mkdir -p dist
+          ./sops -d ./cloudflare.enc | jq -r '.redirects[] | "\(.from) \(.to)"' > dist/_redirects
+          rm -f cloudflare.enc
+      - uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65 # v3.14.1
+        id: deployment-cloudflare
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=jc-tn --branch=main
+      - run: |
+            rm -rf dist

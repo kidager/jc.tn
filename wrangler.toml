@@ -1,0 +1,8 @@
+# Cloudflare Pages configuration for jc.tn URL shortener
+name = "jc-tn"
+
+# Output directory for Cloudflare Pages deployment
+pages_build_output_dir = "dist"
+
+# Compatibility date for Cloudflare Workers runtime
+compatibility_date = "2024-01-01"

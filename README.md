@@ -1,6 +1,11 @@
 # jc.tn
 
-This is my personal url shortener based solely on firebase redirections rules
+Personal URL shortener and static file server deployed to Firebase Hosting and Cloudflare Pages.
+
+## Features
+
+- **URL Shortener**: Redirect rules for jc.tn domain
+- **WebFinger**: OpenID Connect discovery for chaieb.me domain (`/.well-known/webfinger`)
 
 ## Dev mode
 

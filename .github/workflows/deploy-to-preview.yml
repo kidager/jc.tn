@@ -5,14 +5,13 @@ on:
   pull_request:
     paths-ignore:
       - '**docker**'
-      - '.github/**'
       - '.gitignore'
       - '.vscode/**'
       - 'README.md'
       - 'compose.yaml'
 
 jobs:
-  build-and-deploy:
+  deploy-firebase:
     runs-on: ubuntu-latest
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     environment:
@@ -20,7 +19,7 @@ jobs:
       url: ${{ steps.deployment-firebase.outputs.details_url }}
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-      - name: Decrypt secrets
+      - name: Decrypt firebase secrets
         env:
           SOPS_VERSION: v3.8.1
           SOPS_AGE_KEY: "${{ secrets.SOPS_AGE_KEY }}"
@@ -41,3 +40,45 @@ jobs:
           expires: 1d
       - run: |
             rm -f firebase.json
+
+  deploy-cloudflare:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    environment:
+      name: preview-cloudflare
+      url: ${{ steps.deployment-cloudflare.outputs.alias }}
+    steps:
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+      - name: Decrypt cloudflare secrets and generate _redirects
+        env:
+          SOPS_VERSION: v3.8.1
+          SOPS_AGE_KEY: "${{ secrets.SOPS_AGE_KEY }}"
+        shell: bash
+        run: |
+          wget -q -O sops https://github.com/mozilla/sops/releases/download/${{ env.SOPS_VERSION }}/sops-${{ env.SOPS_VERSION }}.linux.amd64
+          chmod +x ./sops
+          ./sops --version
+          mkdir -p dist
+          ./sops -d ./cloudflare.enc | jq -r '.redirects[] | "\(.from) \(.to)"' > dist/_redirects
+          rm -f cloudflare.enc
+      - uses: cloudflare/wrangler-action@da0e0dfe58b7a431659754fdf3f186c529afbe65 # v3.14.1
+        id: deployment-cloudflare
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=jc-tn --branch=${{ github.head_ref }}
+      - name: Comment on PR with Cloudflare preview URL
+        uses: marocchino/sticky-pull-request-comment@52423e01640425a022ef5fd42c6fb5f633a02728 # v2.9.1
+        with:
+          header: cloudflare-preview
+          message: |
+            ## ☁️ Cloudflare Pages Preview
+
+            | Name | Link |
+            | :--- | :--- |
+            | **Preview URL** | ${{ steps.deployment-cloudflare.outputs.deployment-url }} |
+            | **Branch** | `${{ github.head_ref }}` |
+
+            <sub>Deployed with [Cloudflare Pages](https://pages.cloudflare.com)</sub>
+      - run: |
+            rm -rf dist
