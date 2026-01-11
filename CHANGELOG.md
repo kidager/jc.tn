@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.2](https://github.com/kidager/jc.tn/compare/v1.0.1...v1.0.2) (2026-01-11)
+
+
+### Bug Fixes
+
+* project name ([911819b](https://github.com/kidager/jc.tn/commit/911819b2da1cadc59afe8ccba6eeb6920c215142))
+
+
+### Miscellaneous Chores
+
+* add cloudflare deployments ([e259790](https://github.com/kidager/jc.tn/commit/e259790159f8bd945d449735c95734d9799d9b8a))
+
 ## [1.0.1](https://github.com/kidager/jc.tn/compare/v1.0.0...v1.0.1) (2025-01-16)
 
 
