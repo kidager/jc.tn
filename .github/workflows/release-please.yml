@@ -60,7 +60,7 @@ jobs:
     if: ${{ needs.release-please.outputs.release_created }}
     environment:
         name: production-cloudflare
-        url: https://jc-tn.pages.dev
+        url: https://jacem.pages.dev
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
       - name: Decrypt cloudflare secrets and generate _redirects
@@ -80,6 +80,6 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=jc-tn --branch=main
+          command: pages deploy dist --project-name=jacem --branch=main
       - run: |
             rm -rf dist
