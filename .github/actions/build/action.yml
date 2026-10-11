@@ -1,0 +1,29 @@
+name: build
+description: Copy public/ to dist/ and generate _redirects from cloudflare.enc
+
+inputs:
+  sops-age-key:
+    description: Age key that decrypts cloudflare.enc
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Install sops
+      shell: bash
+      env:
+        SOPS_VERSION: v3.13.3
+      run: |
+        base="https://github.com/getsops/sops/releases/download/${SOPS_VERSION}"
+        curl -fsSLO "${base}/sops-${SOPS_VERSION}.linux.amd64"
+        curl -fsSL "${base}/sops-${SOPS_VERSION}.checksums.txt" | grep " sops-${SOPS_VERSION}.linux.amd64$" | sha256sum -c -
+        install -m 0755 "sops-${SOPS_VERSION}.linux.amd64" /usr/local/bin/sops
+        rm -f "sops-${SOPS_VERSION}.linux.amd64"
+    - name: Build dist
+      shell: bash
+      env:
+        SOPS_AGE_KEY: ${{ inputs.sops-age-key }}
+      run: |
+        rm -rf dist
+        cp -r public dist
+        sops -d cloudflare.enc | jq -r '.redirects[] | "\(.from) \(.to)"' > dist/_redirects
