@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.3](https://github.com/kidager/jc.tn/compare/v1.0.2...v1.0.3) (2026-10-11)
+
+
+### Miscellaneous Chores
+
+* remove Firebase hosting ([7ee0e2d](https://github.com/kidager/jc.tn/commit/7ee0e2d9a70fbb07b6b94c9707b644003a414856))
+
+
+### Continuous Integration
+
+* deploy public files and redirects to Cloudflare Pages ([875a063](https://github.com/kidager/jc.tn/commit/875a063ccabb80d0f8ffa2e76f97bd3e58eddb56))
+
 ## [1.0.2](https://github.com/kidager/jc.tn/compare/v1.0.1...v1.0.2) (2026-01-11)
 
 
