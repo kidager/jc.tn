@@ -2,68 +2,37 @@
 
 ## Overview
 
-A personal URL shortener deployed to both Firebase Hosting and Cloudflare Pages. Redirects are configured via JSON files encrypted with SOPS.
+A personal URL shortener served by Cloudflare Pages. Redirects are kept in `cloudflare.enc`, encrypted with SOPS.
 
 ## Project Structure
 
 ```
 .
-├── public/                   # Static files served by Firebase
+├── public/                   # Static files, copied to dist/
 │   ├── .well-known/webfinger # OpenID Connect discovery for chaieb.me
+│   ├── _headers              # Cloudflare Pages headers
 │   ├── index.html
 │   ├── 404.html
 │   └── favicon.ico
-├── firebase.enc              # Encrypted Firebase config with redirects
-├── cloudflare.enc            # Encrypted Cloudflare redirects
+├── cloudflare.enc            # Encrypted redirects
 ├── justfile                  # Task runner commands
 ├── wrangler.toml             # Cloudflare Pages configuration
-└── .github/workflows/        # CI/CD pipelines
+└── .github/                  # CI/CD (build action, preview and release workflows)
 ```
-
-## Domains
-
-- **jc.tn**: URL shortener redirects
-- **chaieb.me**: Serves `.well-known/webfinger` for OpenID Connect discovery (points to `auth.jacem.ch`)
-
-## Key Technologies
-
-- **Firebase Hosting**: Primary hosting platform
-- **Cloudflare Pages**: Secondary hosting platform
-- **SOPS**: Secrets encryption (uses AGE and PGP keys)
-- **just**: Task runner (replaces Make)
-- **release-please**: Automated releases on main branch
 
 ## Commands (justfile)
 
 ```bash
-just                     # Show available commands
-just firebase-edit       # Edit firebase.enc (encrypted)
-just cloudflare-edit     # Edit cloudflare.enc (encrypted)
-just deploy-beta         # Deploy to Firebase beta channel
-just deploy-prod         # Deploy to Firebase production
-just cloudflare-deploy   # Deploy to Cloudflare Pages
+just          # Show available commands
+just edit     # Edit cloudflare.enc (encrypted)
+just build    # Build dist/ (public/ + _redirects)
+just dev      # Serve dist/ locally with wrangler
+just deploy   # Deploy to Cloudflare Pages
 ```
 
 ## Adding Redirects
 
-### Firebase (firebase.enc)
-Edit with `just firebase-edit` or `sops firebase.enc`:
-```json
-{
-  "hosting": {
-    "redirects": [
-      {
-        "source": "/shortcode",
-        "destination": "https://example.com/full-url",
-        "type": 302
-      }
-    ]
-  }
-}
-```
-
-### Cloudflare (cloudflare.enc)
-Edit with `just cloudflare-edit` or `sops cloudflare.enc`:
+Edit with `just edit`:
 ```json
 {
   "redirects": [
@@ -72,23 +41,11 @@ Edit with `just cloudflare-edit` or `sops cloudflare.enc`:
 }
 ```
 
+Each entry becomes a `_redirects` line. Redirects take priority over the files in `public/`.
+
 ## Deployment Flow
 
-- **Pull Requests**: Auto-deploy to preview environments (Firebase beta + Cloudflare branch)
-- **Main branch**: release-please creates release PRs; merging triggers production deployment
-- **Manual**: Use `just deploy-prod` or `just cloudflare-deploy`
+- **Pull Requests**: deployed to a Cloudflare Pages preview branch
+- **Releases**: kidager-bot opens the release PR; the published release deploys to production
 
-## Secrets Management
-
-All sensitive config is encrypted with SOPS. The `.sops.yaml` defines encryption keys (AGE + PGP). Never commit decrypted `firebase.json` or `cloudflare.json`.
-
-Required environment variables for CI:
-- `SOPS_AGE_KEY`: AGE private key for decryption
-- `FIREBASE_SERVICE_ACCOUNT_JACEM_CHAIEB`: Firebase service account
-- `CLOUDFLARE_API_TOKEN`: Cloudflare API token
-- `CLOUDFLARE_ACCOUNT_ID`: Cloudflare account ID
-
-## URLs
-
-- Production (Firebase): https://jc.tn
-- Production (Cloudflare): https://jacem.pages.dev
+Never commit decrypted secrets.
