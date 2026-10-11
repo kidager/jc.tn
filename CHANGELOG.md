@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.4](https://github.com/kidager/jc.tn/compare/v1.0.3...v1.0.4) (2026-10-11)
+
+
+### Miscellaneous Chores
+
+* stop tracking the wrangler local state ([fe1f1b8](https://github.com/kidager/jc.tn/commit/fe1f1b81783699c97282cdc5cb84c9f490c95a1c))
+
+
+### Continuous Integration
+
+* **preview:** post the preview comment as kidager[bot] ([408c9f6](https://github.com/kidager/jc.tn/commit/408c9f62cfbf2e15e7204dcc051b544e9e0a3a5f))
+
 ## [1.0.3](https://github.com/kidager/jc.tn/compare/v1.0.2...v1.0.3) (2026-10-11)
 
 
