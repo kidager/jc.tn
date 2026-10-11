@@ -12,7 +12,8 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write
+  # For the kidager[bot] token
+  id-token: write
 
 jobs:
   deploy:
@@ -32,10 +33,14 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist --project-name=jacem --branch=${{ github.head_ref || github.ref_name }}
+      - id: bot
+        if: github.event_name == 'pull_request'
+        uses: kidager/actions/token@51640e6ee365e87a4b78b555dcaf6a0c5183e8a9 # v1.0.0
       - name: Comment on PR with the preview URL
         if: github.event_name == 'pull_request'
         uses: marocchino/sticky-pull-request-comment@5770ad5eb8f42dd2c4f34da00c94c5381e49af88 # v3.0.5
         with:
+          GITHUB_TOKEN: ${{ steps.bot.outputs.token }}
           header: cloudflare-preview
           message: |
             Preview: ${{ steps.deployment.outputs.deployment-url }}
